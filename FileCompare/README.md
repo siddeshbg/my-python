@@ -1,4 +1,4 @@
-#FileCompare
+# FileCompare
 A simple script to look for items found in source file, but missing in destination.
 
 This script takes two files each containing some data. Then it looks for each line in source, whether it is present in
