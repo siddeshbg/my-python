@@ -2,6 +2,7 @@ import os
 from subprocess import call
 from argparse import ArgumentParser
 import sys
+from lxml import etree
 
 
 class NexusUploader:
@@ -23,23 +24,38 @@ class NexusUploader:
 
     def upload_with_poms(self):
         poms = self.get_pom_files()
+        parser = etree.XMLParser(remove_comments=False)
+
         for index, pom in enumerate(poms):
-            print("%d/%d: %s" % (index+1, len(poms), pom))
+            print("%d/%d: %s" % (index + 1, len(poms), pom))
+
             for file in os.listdir(os.path.dirname(pom)):
                 if file.endswith(".jar") and "-sources" in file:
                     source_file = os.path.join(os.path.dirname(pom), file)
                 elif file.endswith(".jar"):
                     jar_file = os.path.join(os.path.dirname(pom), file)
-            print("Running CMD: mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=%s -Durl=%s/repository/%s "
-                  "-DpomFile=%s -Dfile=%s -Dsources=%s -DuniqueVersion=false"
-                  % (self.repo_id, self.nexus_url, self.nexus_repo, pom, jar_file, source_file))
-            call("mvn deploy:deploy-file -DgeneratePom=false -DrepositoryId=%s -Durl=%s/repository/%s -DpomFile=%s "
-                 "-Dfile=%s -Dsources=%s -DuniqueVersion=false"
-                 % (self.repo_id, self.nexus_url, self.nexus_repo, pom, jar_file, source_file), shell=True)
 
+            xml = etree.parse(pom, parser=parser)
+            groupId = xml.find("./{*}groupId")
+            artifactId = xml.find("./{*}artifactId")
+            version = xml.find("./{*}version")
+            packaging = xml.find("./{*}packaging")
+            if not packaging:
+                packaging = "jar"
+            else:
+                packaging = packaging.text
+
+            print("Running CMD: mvn deploy:deploy-file -DgeneratePom=false -DgroupId=%s -DartifactId=%s -Dversion=%s "
+                "-Dpackaging=%s -Dfile=%s -DrepositoryId=%s -Durl=%s/repository/%s -DpomFile=%s -Dsources=%s -DuniqueVersion=false"
+                % (groupId.text, artifactId.text, version.text, packaging, jar_file, self.repo_id, self.nexus_url,
+                   self.nexus_repo, pom, source_file))
+
+            call("mvn deploy:deploy-file -DgeneratePom=false -DgroupId=%s -DartifactId=%s -Dversion=%s -Dpackaging=%s "
+                 "-Dfile=%s -DrepositoryId=%s -Durl=%s/repository/%s -DpomFile=%s -Dsources=%s -DuniqueVersion=false"
+                 % (groupId.text, artifactId.text, version.text, packaging, jar_file, self.repo_id, self.nexus_url,
+                    self.nexus_repo, pom, source_file), shell=True)
 
 def main():
-
     parser = ArgumentParser(description='Helper script to upload artifacts to Nexus')
     parser.add_argument("-d", "--dir", help='Directory consisting artifacts to upload', required=True)
     parser.add_argument("-n", "--url", help='Nexus server url', required=True)
@@ -54,6 +70,11 @@ def main():
     root_dir = args.dir
     nexus_url = args.url
     nexus_repo = args.repo
+
+    if not os.path.isdir(root_dir):
+        print("[ERROR] %s dir not found" % root_dir)
+        exit(1)
+
     if args.id is not None:
         repo_id = args.id
         uploader = NexusUploader(root_dir, nexus_url, nexus_repo, repo_id)
