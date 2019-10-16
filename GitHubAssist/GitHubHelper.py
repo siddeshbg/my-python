@@ -43,6 +43,5 @@ def main():
         print("commit: %s author: %s jira_id: %s" % (commit.sha, commit.author.login, jira_id))
 
 if __name__ == '__main__':
-    #github_access_token = '0a1b96463b274d80051edcb350f152a5154f7003'
     main()
 
