@@ -25,6 +25,15 @@ class GitHubHelper:
         if m:
             return m.group(1)
 
+    def get_contents_of_dir(self, repo, dir=''):
+        r = self.github.get_repo(repo)
+        return [f.path for f in r.get_contents(dir)]
+
+    def get_file_content(self, repo, filename):
+        r = self.github.get_repo(repo)
+        contents =  r.get_contents(filename)
+        return contents.decoded_content
+
 
 def main():
     token = os.environ['GITHUB_TOKEN']
@@ -41,6 +50,8 @@ def main():
     for commit in commits:
         jira_id = g.get_jira_issue_from_description(commit.commit.message)
         print("commit: %s author: %s jira_id: %s" % (commit.sha, commit.author.login, jira_id))
+
+    print(g.get_contents_of_dir(repo, 'src/cpp/code/caching'))
 
 if __name__ == '__main__':
     main()
