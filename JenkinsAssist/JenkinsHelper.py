@@ -49,7 +49,11 @@ class JenkinsHelper:
         return self.server.get_job_config(job_name)
 
     def get_build_info(self, job_name, build_number):
-        return self.server.get_build_info(job_name, build_number)
+        try:
+            build_info = self.server.get_build_info(job_name, build_number)
+        except:
+            build_info = 'NA'
+        return build_info
 
     def get_job_info(self, job_name):
         return self.server.get_job_info(job_name, fetch_all_builds=True)
