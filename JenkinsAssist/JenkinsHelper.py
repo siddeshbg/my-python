@@ -3,7 +3,6 @@ import os
 import jenkins
 import requests
 from requests.auth import HTTPBasicAuth
-import multiprocessing
 
 
 class JenkinsHelper:
