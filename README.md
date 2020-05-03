@@ -8,6 +8,7 @@ Collection of small python programs
 2. [Nexus_Uploader](#Nexus_Uploader)
 3. [FileCompare](#FileCompare)
 4. [bazel-trace-parser](#bazel-trace-parser)
+5. [retry-with-retrying](#retry-with-retrying)
 
 ## HelloWorld_Class_Example
 A simple Helloworld class file with pytest.
@@ -19,3 +20,6 @@ A simple script to look for items found in source file, but missing in destinati
 It compares two Bazel trace files and generates comparision report. 
 
 It deals with json data in trace files. 
+
+## retry-with-retrying
+A simple script to demonstrate the use of retrying package
