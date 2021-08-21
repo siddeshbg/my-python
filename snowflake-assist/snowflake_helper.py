@@ -47,14 +47,22 @@ def usage():
     )
 
     query = """
-    SELECT BUILD_URL, DATE, ERRORS, FAILURES, TESTS, TEST_PATH, TEST_SUITE, 
-    COMPONENT FROM CDM_UNIT_TESTS 
+    SELECT TEST_PATH, TEST_SUITE, ERRORS, FAILURES, TESTS, COMPONENT, 
+    BUILD_URL, DATE FROM CDM_UNIT_TESTS 
     WHERE (ERRORS > 0 OR FAILURES > 0) AND DATE >= DATEADD(day,-7, CURRENT_DATE())
     ORDER BY DATE DESC
     """
     results = s.query_synch(query)
-    for rec in results:
-        print(rec)
+    result_dict = dict()
+    for row in results:
+        # print(row)
+        key = row[0] + ":" + row[1]
+        if key not in result_dict:
+            result_dict[key] = list()
+        result_dict[key].append(row[2:])
+
+    for k, v in result_dict.items():
+        print(k, len(v))
 
 
 if __name__ == '__main__':
