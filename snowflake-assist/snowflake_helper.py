@@ -20,13 +20,15 @@ class SnowflakeBroker():
         self.cursor = self.conn.cursor()
 
     def query_synch(self, query):
+        print("Executing snowflake query ...")
         try:
             self.cursor.execute(query)
-            for col1, col2 in self.cursor:
-                print("%s, %s" % (col1, col2))
+            results = self.cursor.execute(query).fetchall()
         finally:
+            print("closing snowflake connection ...")
             self.cursor.close()
 
+        return results
 
     def query_asynch(self, table, columns='*'):
         self.cursor.execute_async("select %s from %s" % (columns, table))
@@ -35,7 +37,6 @@ class SnowflakeBroker():
 
 
 def usage():
-    print("hello")
     s = SnowflakeBroker(
         uname=os.environ['SNOWFLAKE_USER'],
         passwd=os.environ['SNOWFLAKE_PASSWD'],
@@ -45,7 +46,15 @@ def usage():
         schema=os.environ['SNOWFLAKE_SCHEMA']
     )
 
-    s.query_synch("SELECT BUILD_URL, DATE FROM CDM_UNIT_TESTS LIMIT 10")
+    query = """
+    SELECT BUILD_URL, DATE, ERRORS, FAILURES, TESTS, TEST_PATH, TEST_SUITE, 
+    COMPONENT FROM CDM_UNIT_TESTS 
+    WHERE (ERRORS > 0 OR FAILURES > 0) AND DATE >= DATEADD(day,-7, CURRENT_DATE())
+    ORDER BY DATE DESC
+    """
+    results = s.query_synch(query)
+    for rec in results:
+        print(rec)
 
 
 if __name__ == '__main__':
