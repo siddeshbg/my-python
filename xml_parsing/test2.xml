@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="13" failures="0" disabled="0" errors="0" timestamp="2020-01-22T07:56:03" time="7.506" name="AllTests">
+  <testsuite name="VDDK67IntegratonTests/IntegrationTest" tests="6" failures="0" disabled="0" errors="0" time="6.436">
+    <testcase name="Basic/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-7F 00-00&gt;" status="run" time="1.75" classname="VDDK67IntegratonTests/IntegrationTest" />
+    <testcase name="AsyncRead/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-00 00-00&gt;" status="run" time="0.4" classname="VDDK67IntegratonTests/IntegrationTest" />
+    <testcase name="GarbageCollector/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-00 00-00&gt;" status="run" time="3.12" classname="VDDK67IntegratonTests/IntegrationTest" />
+    <testcase name="Benchmark/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-00 00-00&gt;" status="run" time="0.521" classname="VDDK67IntegratonTests/IntegrationTest" />
+    <testcase name="ExportVmdkWithAsyncOutputStream/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-00 00-00&gt;" status="run" time="0.2" classname="VDDK67IntegratonTests/IntegrationTest" />
+    <testcase name="ExportVmdkWithStripedRead/0" value_param="16-byte object &lt;FF-FF FF-FF 00-00 00-00 00-00 00-00 00-00 00-00&gt;" status="run" time="0.445" classname="VDDK67IntegratonTests/IntegrationTest" />
+  </testsuite>
+  <testsuite name="VDDK67IntegratonTests/CompressFlagIntegrationTest" tests="5" failures="0" disabled="0" errors="0" time="0.79">
+    <testcase name="Flags/0" value_param="16-byte object &lt;FF-FF FF-FF 01-01 01-00 45-00 00-00 00-00 00-00&gt;" status="run" time="0.182" classname="VDDK67IntegratonTests/CompressFlagIntegrationTest" />
+    <testcase name="Flags/1" value_param="16-byte object &lt;FF-FF FF-FF 01-01 00-00 44-00 00-00 01-7F 00-00&gt;" status="run" time="0.226" classname="VDDK67IntegratonTests/CompressFlagIntegrationTest" />
+    <testcase name="Flags/2" value_param="16-byte object &lt;FF-FF FF-FF 01-00 00-00 04-00 00-00 00-00 00-00&gt;" status="run" time="0.077" classname="VDDK67IntegratonTests/CompressFlagIntegrationTest" />
+    <testcase name="Flags/3" value_param="16-byte object &lt;FF-FF FF-FF 00-00 01-00 01-00 00-00 00-00 00-00&gt;" status="run" time="0.167" classname="VDDK67IntegratonTests/CompressFlagIntegrationTest" />
+    <testcase name="Flags/4" value_param="16-byte object &lt;92-E2 00-00 01-01 00-00 44-00 00-00 00-7F 00-00&gt;" status="run" time="0.138" classname="VDDK67IntegratonTests/CompressFlagIntegrationTest" />
+  </testsuite>
+  <testsuite name="VDDK67IntegratonTests/IntegrationTestBadRead" tests="1" failures="0" disabled="0" errors="0" time="0.151">
+    <testcase name="ExportVmdkWithStripedRead/0" value_param="16-byte object &lt;93-E2 00-00 00-00 00-00 00-00 00-00 00-7F 00-00&gt;" status="run" time="0.151" classname="VDDK67IntegratonTests/IntegrationTestBadRead" />
+  </testsuite>
+  <testsuite name="VDDK67IntegratonTests/IntegrationTestBadWrite" tests="1" failures="0" disabled="0" errors="0" time="0.129">
+    <testcase name="ExportVmdkWithStripedRead/0" value_param="16-byte object &lt;94-E2 00-00 00-00 00-00 00-00 00-00 00-7F 00-00&gt;" status="run" time="0.129" classname="VDDK67IntegratonTests/IntegrationTestBadWrite" />
+  </testsuite>
+</testsuites>
